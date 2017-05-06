@@ -1,0 +1,52 @@
+{% extends "admin/change_form.html" %}
+{% load i18n %}
+
+{% block submit_buttons_bottom %}
+    <div class="submit-row">
+        <input type="submit" value="{% trans 'Push Update' %}" name="_push_update" class="push_update" />
+        <input type="submit" value="{% trans 'Reject Update' %}" name="_reject_update" class="reject_update" />
+    </div>
+
+    {{ block.super }}
+{% endblock %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <style>
+        .different_field {
+            border-color: red! important;
+        }
+        .push_update {
+            background-color: green! important;
+        }
+        .reject_update {
+            background-color: red! important;
+        }
+
+        .field-box.field-contact_name, .field-box.field-name,
+        .field-box.field-contact_phone, .field-box.field-phone,
+        .field-box.field-contact_address, .field-box.field-address,
+        .field-box.field-contact_description, .field-box.field-description,
+        .field-box.field-contact_price, .field-box.field-price {
+            width: 45%;
+        }
+    </style>
+{% endblock %}
+
+{% block extrahead %}{{ block.super }}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    $(function() {
+        var field_list = ['name', 'phone', 'address', 'description', 'price'];
+        $.each(field_list, function(i, field_name) {
+            var field = $('#id_' + field_name);
+            var field_value = field.val();
+            var contact_readonly_div = $('.field-contact_' + field_name).find('div.readonly');
+            var contact_value = contact_readonly_div.text();
+            if (field_value != contact_value) {
+                field.addClass('different_field')
+            }
+        });
+    });
+</script>
+{% endblock %}
