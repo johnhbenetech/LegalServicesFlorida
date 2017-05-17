@@ -1,0 +1,13 @@
+.navbar-brand,
+.navbar-nav li a {
+    line-height: 70px;
+    height: 70px;
+    padding-top: 0;
+}
+
+
+
+
+.navbar-brand img{
+    padding-top: 10px;
+}

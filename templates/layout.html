@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>openref3 {% block title %}{% endblock %}</title>
+    <title>Legal Services Directory {% block title %}{% endblock %}</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -17,31 +17,48 @@
 </head>
 
 <body>
-
 <nav class="navbar navbar-inverse">
-    <div class="container">
-        <div id="navbar">
-            <ul class="nav navbar-nav">
-                {% if user.is_authenticated %}
-                <li><a href="{% url 'logout' %}?next=/">Logout</a></li>
-                <li><a href="{% url 'contact:update' %}">Contact Update</a></li>
-                <li><a href="{% url 'token:get' %}">API Token</a></li>
-                {% else %}
-                <li><a href="{% url 'login' %}">Login</a></li>
-                {% endif %}
-            </ul>
-        </div>
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span> 
+      </button>
+      {% if user.is_authenticated %}
+      <div class="navbar-brand"><img src="{% static "logo.png" %}" alt="CLSMF Logo"/></div>
+      {% else %}
+      <span class="navbar-brand mb-0">Legal Services Directory</span>
+      {% endif %}
     </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'contact:update' %}">Contact Update</a></li>
+            <li><a href="{% url 'token:get' %}">API Token</a></li>
+            {% else %}
+            {% endif %}
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'logout' %}?next=/"><span class="glyphicon glyphicon-log-out"></span>  Logout</a></li>
+            {% else %}
+            <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span>  Login</a></li>
+            {% endif %}
+        </ul>
+    </div>
+  </div>
 </nav>
 
 <div class="container">
     {% block content %}{% endblock %}
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 
 {% block scripts %}
 {% endblock %}

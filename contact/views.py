@@ -3,7 +3,12 @@ from .models import Contact, ContactUpdate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth.views import login as contrib_login
 
+def login(request):
+    if request.user.is_authenticated():
+        return redirect(settings.LOGIN_REDIRECT_URL)
+    return contrib_login(request)
 
 class ContactUpdateFormView(LoginRequiredMixin, generic.CreateView):
     model = ContactUpdate

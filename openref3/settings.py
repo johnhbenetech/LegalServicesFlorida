@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #3rd-party
+    'widget_tweaks',
     'django_admin_listfilter_dropdown',
     'rest_framework',
     'rest_framework.authtoken',
@@ -96,15 +97,23 @@ WSGI_APPLICATION = 'openref3.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': os.environ.get('DJANGO_DATABASE_NAME'),
-        # 'USER': os.environ.get('DJANGO_DATABASE_USER'),
-        # 'PASSWORD' : os.environ.get('DJANGO_DATABASE_PASSWORD'),
-        # 'HOST': os.environ.get('DJANGO_DATABASE_HOST'),
-        # 'PORT': os.environ.get('DJANGO_DATABASE_PORT'),
-
-    # }
+    #'default': {
+    #    'ENGINE': 'django.db.backends.postgresql',
+    #    'NAME': os.environ.get('DJANGO_DATABASE_NAME'),
+    #    'USER': os.environ.get('DJANGO_DATABASE_USER'),
+    #    'PASSWORD' : os.environ.get('DJANGO_DATABASE_PASSWORD'),
+    #    'HOST': os.environ.get('DJANGO_DATABASE_HOST'),
+    #    'PORT': os.environ.get('DJANGO_DATABASE_PORT'),
+    #
+    #}
+    #'default': {
+    #    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #    'NAME': os.environ.get('RDS_DB_NAME'),
+    #    'USER': os.environ.get('RDS_USERNAME'),
+    #    'PASSWORD': os.environ.get('RDS_PASSWORD'),
+    #    'HOST': os.environ.get('RDS_HOSTNAME'),
+    #    'PORT': os.environ.get('RDS_PORT'),
+    #}
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'openref4',

@@ -1,38 +1,99 @@
 {% extends 'layout.html' %}
-
+{% load staticfiles %}
 {% load add_class %}
 
+
 {% block content %}
-<div class="content">
-    {% if form.errors %}
+
+<style>
+{
+    -webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+	outline: none;
+}
+
+    .form-control {
+	  position: relative;
+	  font-size: 16px;
+	  height: auto;
+	  padding: 10px;
+		@include box-sizing(border-box);
+
+		&:focus {
+		  z-index: 2;
+		}
+	}
+
+body {
+	background: url({% static "color.jpg" %}) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.login-form {
+	margin-top: 60px;
+}
+
+form[role=form] {
+	color: #5d5d5d;
+	background: #f2f2f2;
+	padding: 26px;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+	form[role=form] img {
+		display: block;
+		margin: 0 auto;
+		margin-bottom: 35px;
+	}
+	form[role=form] input,
+	form[role=form] button {
+		font-size: 18px;
+		margin: 16px 0;
+	}
+ 
+</style>    
+
+
+<div class="container-fluid">
+  
+  <div class="row">
+    <div class="col-sm-3"></div>
+    
+    <div class="col-sm-6">
+      <section class="login-form">
+
+        <form method="post" action="{% url 'login' %}" role="form"  style="padding-top:50px;padding-bottom:50px;">
+            {% csrf_token %}
+            <legend><img src="{% static "logolg.png" %}" alt="CLSMF Logo" class="img-responsive"/></legend>
+
+            {% for field in form %}
+            <div class="form-group {% if field.errors %}has-error{% endif %}">            
+                <div>
+                    <input class="form-control input-lg" id="{{ field.id_for_label }}" maxlength="30" name="{{ field.html_name }}" placeholder="{{ field.label }}" type="{{ field.html_name }}"/>
+                    {% if field.errors %}
+                    <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
+                    {% endif %}
+                    {% if field.help_text %}
+                    <span class="help-block ">{{ field.help_text }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-lg btn-primary btn-block">Sign in</button> 
+                  {% if form.errors %}
     <div class="alert alert-danger">
         <p>Please enter a correct username and password. Note that both fields are case-sensitive.</p>
     </div>
-    {% endif %}
-    <form action="{% url 'login' %}" method="post" class="form-horizontal" role="form">
-        {% csrf_token %}
-        <legend><span class="col-sm-offset-1">Log in</span></legend>
-        {% for field in form %}
-
-        <div class="form-group {% if field.errors %}has-error{% endif %}">
-            <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
-            <div class="col-sm-10 ">
-                {{ field|add_class:'form-control input-lg' }}
-                {% if field.errors %}
-                <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
-                {% endif %}
-                {% if field.help_text %}
-                <span class="help-block ">{{ field.help_text }}</span>
-                {% endif %}
-            </div>
-        </div>
-
-        {% endfor %}
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">Log in</button>
-            </div>
-        </div>
-    </form>
+    {% endif %}            
+        </form>
+      </section>  
+      </div>
+  </div>  
 </div>
+
 {% endblock %}
