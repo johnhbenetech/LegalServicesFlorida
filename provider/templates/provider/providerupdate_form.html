@@ -25,13 +25,14 @@
     <input type="submit" value="Submit" class="btn btn-primary btn-lg pull-right">
 </form>
 
+
 {% endblock %}
 
 {% block scripts %}
 <script>
     $(function() {
-        $('#id_contact').on('change', function() {
-            document.location.href = '{% url 'contact:update' %}?contact_id=' + $('#id_contact').val();
+        $('#id_provider').on('change', function() {
+            document.location.href = '{% url 'provider:update' %}?provider_id=' + $('#id_provider').val();
         });
     });
 </script>

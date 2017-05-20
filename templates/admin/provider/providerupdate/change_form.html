@@ -23,11 +23,11 @@
             background-color: red! important;
         }
 
-        .field-box.field-contact_name, .field-box.field-name,
-        .field-box.field-contact_phone, .field-box.field-phone,
-        .field-box.field-contact_address, .field-box.field-address,
-        .field-box.field-contact_description, .field-box.field-description,
-        .field-box.field-contact_price, .field-box.field-price {
+        .field-box.field-provider_name, .field-box.field-name,
+        .field-box.field-provider_phone, .field-box.field-phone,
+        .field-box.field-provider_address, .field-box.field-address,
+        .field-box.field-provider_description, .field-box.field-description,
+        .field-box.field-provider_price, .field-box.field-price {
             width: 45%;
         }
     </style>
@@ -41,9 +41,9 @@
         $.each(field_list, function(i, field_name) {
             var field = $('#id_' + field_name);
             var field_value = field.val();
-            var contact_readonly_div = $('.field-contact_' + field_name).find('div.readonly');
-            var contact_value = contact_readonly_div.text();
-            if (field_value != contact_value) {
+            var provider_readonly_div = $('.field-provider_' + field_name).find('div.readonly');
+            var provider_value = provider_readonly_div.text();
+            if (field_value != provider_value) {
                 field.addClass('different_field')
             }
         });

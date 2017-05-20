@@ -9,25 +9,25 @@
     </p>
 
     <div>
-        <h4>Get Contact List</h4>
+        <h4>Get Provider List</h4>
         <code>
-            curl -X GET {% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}{{ object.get_absolute_url }}/api/contacts/ -H 'Authorization: Token {{ token.key }}' -H 'Accept: application/json; indent=4'
+            curl -X GET {% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}{{ object.get_absolute_url }}/api/providers/ -H 'Authorization: Token {{ token.key }}' -H 'Accept: application/json; indent=4'
         </code>
     </div>
 
     <div>
-        <h4>Get Contact</h4>
+        <h4>Get Provider</h4>
         <code>
-            curl -X GET {% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}{{ object.get_absolute_url }}/api/contacts/1/ -H 'Authorization: Token {{ token.key }}' -H 'Accept: application/json; indent=4'
+            curl -X GET {% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}{{ object.get_absolute_url }}/api/providers/1/ -H 'Authorization: Token {{ token.key }}' -H 'Accept: application/json; indent=4'
         </code>
     </div>
 
     <div>
-        <h4>Create Contact Update</h4>
+        <h4>Create Provider Update</h4>
         <code>
             <pre>
-curl -X POST {% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}{{ object.get_absolute_url }}/api/contact_updates/ -H 'Authorization: Token {{ token.key }}' -H 'Accept: application/json; indent=4' -d '{
-    "contact": 1,
+curl -X POST {% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}{{ object.get_absolute_url }}/api/provider_updates/ -H 'Authorization: Token {{ token.key }}' -H 'Accept: application/json; indent=4' -d '{
+    "provider": 1,
     "name": "Test Name",
     "phone": "Test Phone",
     "address": "Test Address",

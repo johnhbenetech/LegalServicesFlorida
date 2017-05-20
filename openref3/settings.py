@@ -46,13 +46,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #3rd-party
-    'widget_tweaks',
+    'django_tables2',
+    'reversion',
     'django_admin_listfilter_dropdown',
     'rest_framework',
     'rest_framework.authtoken',
     #app
     'homepage',
-    'contact',
+    'provider',
     'apitoken',
 ]
 
@@ -116,7 +117,7 @@ DATABASES = {
     #}
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'openref4',
+        'NAME': 'openref',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': '127.0.0.1',
@@ -162,7 +163,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-LOGIN_REDIRECT_URL = '/contact/update'
+LOGIN_REDIRECT_URL = '/provider/update'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [

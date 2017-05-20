@@ -4,4 +4,5 @@ django-admin-list-filter-dropdown
 djangorestframework
 markdown
 django-filter
-django-widget-tweaks
+django-reversion
+django-tables2

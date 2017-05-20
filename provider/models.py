@@ -4,22 +4,22 @@ from django.utils import timezone
 from django.db import models
 
 
-class Contact(models.Model):
+class Provider(models.Model):
     name = models.CharField(max_length=255)
     phone = models.CharField(max_length=255)
     address = models.TextField()
     description = models.TextField()
     price = models.DecimalField(decimal_places=2, max_digits=20)
-    created_by = models.ForeignKey(User, related_name='contact_creator',blank=False)
+    created_by = models.ForeignKey(User, related_name='provider_creator',blank=False)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
-    owner = models.ForeignKey(User, related_name='contact_owner',blank=False)
+    owner = models.ForeignKey(User, related_name='provider_owner',blank=False)
 
     def __str__(self):
         return '%s, %s, %s, %s, %s' % (self.name, self.phone, self.address, self.description, self.price)
 
 
-class ContactUpdate(models.Model):
+class ProviderUpdate(models.Model):
     STATUS_ACCEPTED = 'ACCEPTED'
     STATUS_REJECTED = 'REJECTED'
     STATUS_NONE = 'UNPROCESSED'
@@ -34,7 +34,7 @@ class ContactUpdate(models.Model):
         default=STATUS_NONE,
     )
 
-    contact = models.ForeignKey(Contact, related_name='contact_update',blank=False,null=False)
+    provider = models.ForeignKey(Provider, related_name='provider_update',blank=False,null=False)
     name = models.CharField(max_length=255)
     phone = models.CharField(max_length=255)
     address = models.TextField()
@@ -48,3 +48,4 @@ class ContactUpdate(models.Model):
 
     class Meta:
         ordering = ['-created']
+        

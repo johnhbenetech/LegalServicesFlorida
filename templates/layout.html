@@ -17,7 +17,7 @@
 </head>
 
 <body>
-<nav class="navbar navbar-inverse">
+<nav class="navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -28,13 +28,13 @@
       {% if user.is_authenticated %}
       <div class="navbar-brand"><img src="{% static "logo.png" %}" alt="CLSMF Logo"/></div>
       {% else %}
-      <span class="navbar-brand mb-0">Legal Services Directory</span>
+      <strong class="navbar-brand">Legal Services Directory</strong>
       {% endif %}
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
             {% if user.is_authenticated %}
-            <li><a href="{% url 'contact:update' %}">Contact Update</a></li>
+            <li><a href="{% url 'provider:update' %}">Provider Update</a></li>
             <li><a href="{% url 'token:get' %}">API Token</a></li>
             {% else %}
             {% endif %}
@@ -50,7 +50,7 @@
   </div>
 </nav>
 
-<div class="container">
+<div class="container" style="padding-top:40px;">
     {% block content %}{% endblock %}
 </div>
 
