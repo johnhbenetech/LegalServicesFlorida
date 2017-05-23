@@ -10,6 +10,7 @@ admin.site.index_title= 'Admin Actions'
 
 
 class ProviderUpdateAdmin(VersionAdmin, admin.ModelAdmin, ListStyleAdminMixin):
+    change_list_template = 'admin/provider/providerupdate/change_list.html'
     readonly_fields = (
         'provider', 'status', 'provider_name', 'provider_phone', 'provider_address', 'provider_description',
         'provider_price',)
@@ -83,9 +84,6 @@ class ProviderAdmin(VersionAdmin, admin.ModelAdmin):
         if not change:
             obj.created_by = request.user
         obj.save()
-
-class PersonAdmin(VersionAdmin, admin.ModelAdmin):
-    list_display = ('name',)
 
 admin.site.register(Provider, ProviderAdmin)
 admin.site.register(ProviderUpdate, ProviderUpdateAdmin)

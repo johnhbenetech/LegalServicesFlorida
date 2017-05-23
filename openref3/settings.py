@@ -51,6 +51,9 @@ INSTALLED_APPS = [
     'django_admin_listfilter_dropdown',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_filters',
+    'widget_tweaks',
+    'bootstrap3',
     #app
     'homepage',
     'provider',

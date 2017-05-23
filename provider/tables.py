@@ -1,9 +1,11 @@
 import django_tables2 as tables
 from .models import ProviderUpdate
+from django_tables2.utils import A
 
 class UpdatesTable(tables.Table):
     
     class Meta:
         model = ProviderUpdate
-        # add class="paleblue" to <table> tag
-        attrs = {'class': 'paleblue'}
+        fields = ('status','created','name', 'description', 'price', 'owner')
+        attrs = {"class": "table-striped table-bordered"}
+        empty_text = "There are no customers matching the search criteria..."

@@ -7,6 +7,11 @@ from django.shortcuts import render
 from django_tables2 import MultiTableMixin, RequestConfig, SingleTableView
 from .tables import UpdatesTable
 from django.contrib.auth.views import login as contrib_login3
+from django.core.exceptions import ObjectDoesNotExist
+from django.db.models.query_utils import Q
+from .filters import ProviderFilter
+from .utils import PagedFilteredTableView
+from .forms import UpdateFormHelper
 
 
 def login(request):
@@ -58,10 +63,13 @@ def myupdates(request):
     table = UpdatesTable(ProviderUpdate.objects.filter(provider_id__owner = request.user))
     RequestConfig(request).configure(table)
     return render(request, 'myupdates.html', {'table': table})
-
-
+    
+    
 class ProviderUpdateResultView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'provider/providerupdate_form_result.html'
     
     
-
+def search(request):
+    provider_list = Provider.objects.all()
+    provider_filter = ProviderFilter(request.GET, queryset=provider_list)
+    return render(request, 'search/provider_list.html', {'filter': provider_filter})
