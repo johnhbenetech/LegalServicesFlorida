@@ -2,14 +2,31 @@ from django.contrib import admin
 from reversion.admin import VersionAdmin
 from .models import Provider, ProviderUpdate
 from liststyle import ListStyleAdminMixin
-
+from django.core.urlresolvers import reverse
 
 admin.site.site_header = 'My administration'
 admin.site.site_title= 'Admin'
 admin.site.index_title= 'Admin Actions'
 
+class DefaultFilterMixIn(admin.ModelAdmin):
+    def changelist_view(self, request, *args, **kwargs):
+        from django.http import HttpResponseRedirect
+        if self.default_filters:
+            #try:
+                test = request.META['HTTP_REFERER'].split(request.META['PATH_INFO'])
+                if test and test[-1] and not test[-1].startswith('?'):
+                    url = reverse('admin:{}_{}_changelist'.format(self.opts.app_label, self.opts.model_name))
+                    filters = []
+                    for filter in self.default_filters:
+                        key = filter.split('=')[0]
+                        if not key in request.GET:
+                            filters.append(filter)
+                    if filters:                     
+                        return HttpResponseRedirect("{}?{}".format(url, "&".join(filters)))
+            #except: pass
+        return super(DefaultFilterMixIn, self).changelist_view(request, *args, **kwargs) 
 
-class ProviderUpdateAdmin(VersionAdmin, admin.ModelAdmin, ListStyleAdminMixin):
+class ProviderUpdateAdmin(VersionAdmin, DefaultFilterMixIn, ListStyleAdminMixin):
     change_list_template = 'admin/provider/providerupdate/change_list.html'
     readonly_fields = (
         'provider', 'status', 'provider_name', 'provider_phone', 'provider_address', 'provider_description',
@@ -17,6 +34,7 @@ class ProviderUpdateAdmin(VersionAdmin, admin.ModelAdmin, ListStyleAdminMixin):
     list_filter = ('status', 'provider__owner')
     list_display = ('provider_owner', 'created', 'name', 'phone', 'address', 'description', 'price', 'status',)
     exclude = ('created_by',)
+    default_filters = ('status__exact=UNPROCESSED',)
 
     fieldsets = (
         (None, {
@@ -33,7 +51,7 @@ class ProviderUpdateAdmin(VersionAdmin, admin.ModelAdmin, ListStyleAdminMixin):
                 )
         }),
     )
-
+        
     def response_change(self, request, obj):
         result = super(ProviderUpdateAdmin, self).response_change(request, obj)
         if "_push_update" in request.POST:
