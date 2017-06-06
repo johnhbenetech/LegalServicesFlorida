@@ -6,6 +6,6 @@ class ProviderFilter(django_filters.FilterSet):
     description = django_filters.CharFilter(lookup_expr='icontains')
     class Meta:
         model = Provider
-        fields = ['name', 'description', 'price', 'owner']
+        fields = ['organization_name','primary_address','description', 'price', 'owner']
         order_by = ['pk']
 		

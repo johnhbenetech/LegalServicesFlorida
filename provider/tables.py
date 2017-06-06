@@ -6,6 +6,6 @@ class UpdatesTable(tables.Table):
     
     class Meta:
         model = ProviderUpdate
-        fields = ('status','created','name', 'description', 'price', 'owner')
+        fields = ('status','primary_address','created','organization_name', 'description', 'price', 'owner')
         attrs = {"class": "table-striped table-bordered"}
         empty_text = "There are no customers matching the search criteria..."

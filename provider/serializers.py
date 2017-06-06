@@ -11,10 +11,10 @@ class ProviderUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProviderUpdate
-        fields = ('id', 'provider', 'name', 'phone', 'address', 'description', 'price', )
+        fields = ('id', 'provider', 'organization_name', 'phone', 'primary_address', 'description', 'price', 'website_url','counties' )
 
 
 class ProviderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Provider
-        fields = ('id', 'name', 'phone', 'address', 'description', 'price', 'created_by', 'created', 'modified', 'owner',)
+        fields = ('id', 'organization_name', 'phone', 'primary_address', 'description', 'price', 'website_url','counties', 'created_by', 'created', 'modified', 'owner',)

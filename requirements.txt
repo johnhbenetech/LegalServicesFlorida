@@ -9,3 +9,5 @@ django-tables2
 django-widget-tweaks
 django-bootstrap3
 django-crispy-forms
+django-multiselectfield
+django-easy-select2

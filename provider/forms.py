@@ -2,6 +2,10 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit
 from crispy_forms.bootstrap import InlineField, FormActions, StrictButton
 
+
+
+
+
 class UpdateFormHelper(FormHelper):    
     form_id = 'update-search-form'
     form_class = 'form-inline'
@@ -14,7 +18,7 @@ class UpdateFormHelper(FormHelper):
     layout = Layout(
                 Fieldset(
                     '<i class="fa fa-search"></i> Search Customer Records',       
-                    InlineField('name'),
+                    InlineField('organization_name'),
                     InlineField('description'),
                     InlineField('price'),
                     InlineField('owner'),

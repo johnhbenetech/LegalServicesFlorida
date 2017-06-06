@@ -8,6 +8,7 @@ admin.site.site_header = 'My administration'
 admin.site.site_title= 'Admin'
 admin.site.index_title= 'Admin Actions'
 
+
 class DefaultFilterMixIn(admin.ModelAdmin):
     def changelist_view(self, request, *args, **kwargs):
         from django.http import HttpResponseRedirect
@@ -29,10 +30,10 @@ class DefaultFilterMixIn(admin.ModelAdmin):
 class ProviderUpdateAdmin(VersionAdmin, DefaultFilterMixIn, ListStyleAdminMixin):
     change_list_template = 'admin/provider/providerupdate/change_list.html'
     readonly_fields = (
-        'provider', 'status', 'provider_name', 'provider_phone', 'provider_address', 'provider_description',
-        'provider_price',)
+        'provider', 'status', 'provider_organization_name', 'provider_phone', 'provider_primary_address', 'provider_description',
+        'provider_price','provider_website_url','provider_counties',)
     list_filter = ('status', 'provider__owner')
-    list_display = ('provider_owner', 'created', 'name', 'phone', 'address', 'description', 'price', 'status',)
+    list_display = ('provider_owner', 'created', 'organization_name', 'phone', 'primary_address', 'description', 'price', 'status','website_url','counties')
     exclude = ('created_by',)
     default_filters = ('status__exact=UNPROCESSED',)
 
@@ -43,11 +44,13 @@ class ProviderUpdateAdmin(VersionAdmin, DefaultFilterMixIn, ListStyleAdminMixin)
         (None, {
             'fields':
                 (
-                    ('provider_name', 'name',),
+                    ('provider_organization_name', 'organization_name',),
                     ('provider_phone', 'phone'),
-                    ('provider_address', 'address',),
+                    ('provider_primary_address', 'primary_address',),
                     ('provider_description', 'description',),
-                    ('provider_price', 'price',)
+                    ('provider_price', 'price',),
+                    ('provider_website_url','website_url',),
+                    ('provider_counties','counties',)
                 )
         }),
     )
@@ -56,11 +59,13 @@ class ProviderUpdateAdmin(VersionAdmin, DefaultFilterMixIn, ListStyleAdminMixin)
         result = super(ProviderUpdateAdmin, self).response_change(request, obj)
         if "_push_update" in request.POST:
             obj.status = ProviderUpdate.STATUS_ACCEPTED
-            obj.provider.name = obj.name
+            obj.provider.organization_name = obj.organization_name
             obj.provider.phone = obj.phone
-            obj.provider.address = obj.address
+            obj.provider.primary_address = obj.primary_address
             obj.provider.description = obj.description
             obj.provider.price = obj.price
+            obj.provider.website_url = obj.website_url
+            obj.provider.counties = obj.counties
             obj.provider.save()
             obj.save()
 
@@ -70,14 +75,14 @@ class ProviderUpdateAdmin(VersionAdmin, DefaultFilterMixIn, ListStyleAdminMixin)
 
         return result
 
-    def provider_name(self, obj):
-        return obj.provider.name
+    def provider_organization_name(self, obj):
+        return obj.provider.organization_name
 
     def provider_phone(self, obj):
         return obj.provider.phone
 
-    def provider_address(self, obj):
-        return obj.provider.address
+    def provider_primary_address(self, obj):
+        return obj.provider.primary_address
 
     def provider_description(self, obj):
         return obj.provider.description
@@ -87,17 +92,26 @@ class ProviderUpdateAdmin(VersionAdmin, DefaultFilterMixIn, ListStyleAdminMixin)
 
     def provider_owner(self, obj):
         return obj.provider.owner
-
+    
+    def provider_website_url(self, obj):
+        return obj.provider.website_url
+    
+    def provider_counties(self, obj):
+        return obj.provider.counties
+        
     def get_row_css(self, obj, index):
         return 'status_%s' % obj.status
 
+        
+#class ContactAdmin(admin.TabularInline):
+#     model = ContactPerson   
+#     extra = 0     
+ 
 
 class ProviderAdmin(VersionAdmin, admin.ModelAdmin):
-    list_display = ('name', 'phone', 'address', 'description', 'price')
-    list_filter = ('price',)
-    search_fields = ('name', 'price')
+    list_display = ('organization_name', 'phone', 'primary_address', 'description', 'price','website_url','counties')
+    search_fields = ('organization_name',)
     exclude = ('created_by',)
-
     def save_model(self, request, obj, form, change):
         if not change:
             obj.created_by = request.user

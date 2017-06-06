@@ -14,6 +14,8 @@ from .utils import PagedFilteredTableView
 from .forms import UpdateFormHelper
 
 
+
+
 def login(request):
     if request.user.is_authenticated():
         return redirect(settings.LOGIN_REDIRECT_URL)
@@ -22,7 +24,7 @@ def login(request):
 class ProviderUpdateFormView(LoginRequiredMixin, generic.CreateView):
     model = ProviderUpdate
 
-    fields = ['provider', 'name', 'phone', 'address', 'description', 'price', ]
+    fields = ['provider', 'organization_name', 'phone','website_url', 'primary_address', 'description', 'price', 'counties' ]
 
     def get_form(self, form_class=None): 
         form = super(generic.CreateView, self).get_form(form_class)
@@ -33,11 +35,13 @@ class ProviderUpdateFormView(LoginRequiredMixin, generic.CreateView):
         if provider_id:
             provider = Provider.objects.get(pk=provider_id)
             form.fields['provider'].initial = provider.id
-            form.fields['name'].initial = provider.name
+            form.fields['organization_name'].initial = provider.organization_name
             form.fields['phone'].initial = provider.phone
-            form.fields['address'].initial = provider.address
+            form.fields['website_url'].initial = provider.website_url
+            form.fields['primary_address'].initial = provider.primary_address
             form.fields['description'].initial = provider.description
             form.fields['price'].initial = provider.price
+            form.fields['counties'].initial = provider.counties
 
         return form
 

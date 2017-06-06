@@ -23,10 +23,13 @@
             background-color: red! important;
         }
 
-        .field-box.field-provider_name, .field-box.field-name,
+        .field-box.field-provider_organization_name, .field-box.field-organization_name,
         .field-box.field-provider_phone, .field-box.field-phone,
-        .field-box.field-provider_address, .field-box.field-address,
+        .field-box.field-provider_primary_address, .field-box.field-primary_address,
         .field-box.field-provider_description, .field-box.field-description,
+        .field-box.field-provider_counties, .field-box.field-counties,
+        .field-box.field-provider_website_url, .field-box.field-website_url,
+        .field-box.field-provider_counties, .field-box.field-counties,
         .field-box.field-provider_price, .field-box.field-price {
             width: 45%;
         }
@@ -37,7 +40,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
     $(function() {
-        var field_list = ['name', 'phone', 'address', 'description', 'price'];
+        var field_list = ['organization_name', 'phone', 'primary_address', 'description', 'price','website_url','counties',];
         $.each(field_list, function(i, field_name) {
             var field = $('#id_' + field_name);
             var field_value = field.val();
