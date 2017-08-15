@@ -18,5 +18,6 @@ urlpatterns = [
     url('^', include('django.contrib.auth.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^api/v1/', include(router.urls, namespace='api')),
-
+    url(r'^select2/', include('select2.urls')),
+    url(r'^nested_admin/', include('nested_admin.urls')),
 ]

@@ -6,40 +6,198 @@
 
 <form class="form-horizontal" action="" method="POST">
     {% csrf_token %}
+
     {% for field in form %}
-        {% if field.name != 'counties' %} 
-            <div class="form-group {% if field.errors %}has-error{% endif %}">
-                <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
-                <div class="col-sm-10 ">
-                    {{ field|add_class:'form-control input-lg' }}
-                    {% if field.errors %}
-                    <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
-                    {% endif %}
-                    {% if field.help_text %}
-                    <span class="help-block ">{{ field.help_text }}</span>
-                    {% endif %}
-                </div>
-            </div>
-        {% endif %} 
+    {% if field.name != 'counties' %}
+    <div class="form-group {% if field.errors %}has-error{% endif %}">
+        <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+        <div class="col-sm-10 ">
+            {{ field|add_class:'form-control input-lg' }}
+            {% if field.errors %}
+            <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
+            {% endif %}
+            {% if field.help_text %}
+            <span class="help-block ">{{ field.help_text }}</span>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
     {% endfor %}
 
     {% for field in form %}
-        {% if field.name == 'counties' %}
-            <div class="form-group {% if field.errors %}has-error{% endif %}">
-                <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
-                <div class="col-sm-10 ">
-                    {{ field|add_class:'' }}
-                    {% if field.errors %}
-                    <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
-                    {% endif %}
-                    {% if field.help_text %}
-                    <span class="help-block ">{{ field.help_text }}</span>
+    {% if field.name == 'counties' %}
+    <div class="form-group {% if field.errors %}has-error{% endif %}">
+        <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+        <div class="col-sm-10 ">
+            {{ field }}
+            {% if field.errors %}
+            <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
+            {% endif %}
+            {% if field.help_text %}
+            <span class="help-block ">{{ field.help_text }}</span>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+
+    <div class="location-update-container">
+        {{ location_update_form.management_form }}
+        {{ location_update_form.non_form_errors }}
+
+        <div class="location-update-forms-container">
+            {% for location_update_single_form in location_update_form %}
+            <div class="inline">
+                <legend>Location Update #{{ forloop.counter }}</legend>
+
+                {% for hidden in location_update_single_form.hidden_fields %}
+                {{ hidden }}
+                {% endfor %}
+
+                {% for field in location_update_single_form.visible_fields %}
+
+                <div class="form-group {% if field.errors %}has-error{% endif %}">
+                    <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+                    <div class="col-sm-10 ">
+                        {{ field|add_class:'form-control input-lg' }}
+                        {% if field.errors %}
+                        <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
+                        {% endif %}
+                        {% if field.help_text %}
+                        <span class="help-block ">{{ field.help_text }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% endfor %}
+
+                <!--  PhysicalAddressUpdateForm  -->
+                <div class="physical_address-update-form">
+                    {% if location_update_single_form.physical_address_update %}
+
+                    {{ location_update_single_form.physical_address_update.management_form }}
+                    {{ location_update_single_form.physical_address_update.non_form_errors }}
+
+                    {% for physical_address_update_form in location_update_single_form.physical_address_update.forms %}
+
+                    <div class="inline">
+                        <legend>Physical Address Update</legend>
+
+                        {% for hidden in physical_address_update_form.hidden_fields %}
+                        {{ hidden }}
+                        {% endfor %}
+
+                        {% for field in physical_address_update_form.visible_fields %}
+                        <div class="form-group {% if field.errors %}has-error{% endif %}">
+                            <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+                            <div class="col-sm-10 ">
+                                {{ field|add_class:'form-control input-lg' }}
+                                {% if field.errors %}
+                                <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
+                                {% endif %}
+                                {% if field.help_text %}
+                                <span class="help-block ">{{ field.help_text }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
                     {% endif %}
                 </div>
+                <!-- //PhysicalAddressUpdateForm -->
+
+                <!--  ContactUpdateForm  -->
+                <div class="contact-update-form">
+                    {% if location_update_single_form.contact_update %}
+                    {{ location_update_single_form.contact_update.management_form }}
+                    {{ location_update_single_form.contact_update.non_form_errors }}
+
+                    <div class="contact-update-forms-container">
+                    {% for contact_update_form in location_update_single_form.contact_update.forms %}
+                        <div class="inline">
+                            <legend>Contact Update #{{ forloop.counter }}</legend>
+
+                            {% for hidden in contact_update_form.hidden_fields %}
+                            {{ hidden }}
+                            {% endfor %}
+
+                            {% for field in contact_update_form.visible_fields %}
+                            <div class="form-group {% if field.errors %}has-error{% endif %}">
+                                <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+                                <div class="col-sm-10 ">
+                                    {{ field|add_class:'form-control input-lg' }}
+                                    {% if field.errors %}
+                                    <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
+                                    {% endif %}
+                                    {% if field.help_text %}
+                                    <span class="help-block ">{{ field.help_text }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+
+                            <!-- PhoneUpdate -->
+
+                            <div class="phone-update-form">
+                                {% if contact_update_form.phone_update %}
+
+                                {{ contact_update_form.phone_update.management_form }}
+                                {{ contact_update_form.phone_update.non_form_errors }}
+
+                                <div class="phone-update-forms-container">
+                                    {% for phone_update_form in contact_update_form.phone_update.forms %}
+                                            <div class="inline">
+                                                <legend>Phone Update #{{ forloop.counter }}</legend>
+
+                                                {% for hidden in phone_update_form.hidden_fields %}
+                                                {{ hidden }}
+                                                {% endfor %}
+
+                                                {% for field in phone_update_form.visible_fields %}
+                                                <div class="form-group {% if field.errors %}has-error{% endif %}">
+                                                    <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+                                                    <div class="col-sm-10 ">
+                                                        {% if field.name != 'languages' %}
+                                                        {{ field|add_class:'form-control input-lg' }}
+                                                        {% else %}
+                                                        {{ field }}
+                                                        {% endif %}
+                                                        {% if field.errors %}
+                                                        <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
+                                                        {% endif %}
+                                                        {% if field.help_text %}
+                                                        <span class="help-block ">{{ field.help_text }}</span>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                    {% endfor %}
+                                </div>
+                                {% include "provider/providerupdate_form/phone_update_form_empty_form.html" with phone_update_formset=contact_update_form.phone_update %}
+                                {% endif %}
+                            </div>
+                            <!-- //PhoneUpdate -->
+                        </div>
+                    {% endfor %}
+                    </div>
+                    {% include "provider/providerupdate_form/contact_update_form_empty_form.html" with contact_update_formset=location_update_single_form.contact_update %}
+                </div>
+                {% endif %}
+                <!--  //ContactUpdateForm  -->
+
             </div>
-        {% endif %}
-    {% endfor %}
-    <input type="submit" value="Submit" class="btn btn-primary btn-lg pull-right">
+
+        {% endfor %}
+        </div>
+        {% include "provider/providerupdate_form/location_update_form_empty_form.html" with location_update_formset=location_update_form %}
+    </div>
+
+    <div style="margin-top: 30px;">
+        <input type="submit" value="Submit" class="btn btn-primary btn-lg pull-right">
+    </div>
 </form>
 
 
@@ -47,10 +205,91 @@
 
 {% block scripts %}
 <script>
-    $(function() {
-        $('#id_provider').on('change', function() {
-            document.location.href = '{% url 'provider:update' %}?provider_id=' + $('#id_provider').val();
+    {{ block.super }}
+    $(function () {
+        $('#id_provider').on('change', function () {
+            document.location.href = "{% url 'provider:update' %}?provider_id=" + $('#id_provider').val();
         });
+        $('#id_phone').mask("(999)999-9999");
+        $('.phone_number').mask("(999)999-9999");
+
+        addLocationForm = function() {
+            var prefix = $(this).attr('prefix');
+            var empty_form_name = $(this).attr('empty_form');
+            var empty_form = $('.' + empty_form_name);
+            var container = $(this).parent('div.add_location_button_container').parent('.location-update-container').find('.location-update-forms-container');
+            var total_forms = $('#id_' + prefix + 'TOTAL_FORMS');
+            var form_idx = total_forms.val();
+            var container = container.append(empty_form.html().replace(/__prefix__/g, form_idx));
+            var new_form = container.children('.inline:last');
+            var new_form_idx = parseInt(form_idx) + 1;
+            total_forms.val(new_form_idx);
+            new_form.find('.location_prefix_id').html(new_form_idx);
+            $(document).trigger('formset:added_custom', [new_form]);
+        };
+
+        addContactForm = function() {
+            var prefix = $(this).attr('prefix');
+            var empty_form_name = $(this).attr('empty_form');
+            var empty_form = $('.' + empty_form_name);
+            var container = $(this).parent('div.add_contact_button_container').parent('.contact-update-form').find('.contact-update-forms-container');
+            var total_forms = $('#id_' + prefix + 'TOTAL_FORMS');
+            var form_idx = total_forms.val();
+            var container = container.append(empty_form.html().replace(/__contact_update_prefix__/g, form_idx));
+            var new_form = container.children('.inline:last');
+            var new_form_idx = parseInt(form_idx) + 1;
+            total_forms.val(new_form_idx);
+            new_form.find('.contact_update_form_idx').html(new_form_idx);
+            $(document).trigger('formset:added_custom', [new_form]);
+        };
+
+        addPhoneForm = function() {
+            var prefix = $(this).attr('prefix');
+            var empty_form_name = $(this).attr('empty_form');
+            var empty_form = $('.' + empty_form_name);
+            var container = $(this).parent('div.add_phone_button_container').parent('.phone-update-form').find('.phone-update-forms-container');
+            var total_forms = $('#id_' + prefix + 'TOTAL_FORMS');
+            var form_idx = total_forms.val();
+            container.append(empty_form.html().replace(/__phone_update_prefix__/g, form_idx));
+            var new_form = container.find('.inline:last')
+            var new_form_idx = parseInt(form_idx) + 1;
+            total_forms.val(new_form_idx);
+            new_form.find('.phone_update_form_idx').html(new_form_idx);
+            $(document).trigger('formset:added_custom', [new_form]);
+            console.log(total_forms.val());
+        };
+
+        delButtonAction = function() {
+            var prefix = $(this).attr('prefix');
+            var total_forms = $('#id_' + prefix + 'TOTAL_FORMS');
+            var form_idx = total_forms.val();
+            var new_form_idx = parseInt(form_idx) - 1;
+            total_forms.val(new_form_idx);
+            var form_container = $(this).parent('legend').parent('.inline');
+            form_container.remove();
+        }
+
+        updateAddButtons = function() {
+            $(document).off('click', '.add_location');
+            $(document).off('click', '.add_contact');
+            $(document).off('click', '.add_phone');
+            $(document).off('click', '.del_button')
+            $(document).on('click', '.add_location', addLocationForm);
+            $(document).on('click', '.add_contact', addContactForm);
+            $(document).on('click', '.add_phone', addPhoneForm);
+            $(document).on('click', '.del_button', delButtonAction);
+        }
+
+        $(document).on('formset:added_custom', function(event, form) {
+            updateAddButtons();
+            $('.phone_number').mask("(999)999-9999");
+            $(form).find('input.django-select2:not([name*="__prefix__"]):not([name*="__phone_update_prefix__"]):not([name*="__contact_update_prefix__"])').each(function(i, django_select2) {
+                DjangoSelect2.init(django_select2);
+            });
+        });
+
+        updateAddButtons();
     });
 </script>
+{{ form.media }}
 {% endblock %}

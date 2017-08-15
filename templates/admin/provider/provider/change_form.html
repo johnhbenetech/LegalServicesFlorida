@@ -1,0 +1,18 @@
+{% extends "admin/change_form.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block extrahead %}{{ block.super }}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="{% static 'js/jquery.maskedinput.min.js' %}"></script>
+<script>
+    $(function() {
+        $('#id_phone').mask("(999)999-9999");
+        $('.phone_number').mask("(999)999-9999");
+
+        django.jQuery(document).on('formset:added', function(event, $form) {
+            $('.phone_number').mask("(999)999-9999");
+        });
+    });
+</script>
+{% endblock %}

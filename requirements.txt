@@ -11,3 +11,7 @@ django-bootstrap3
 django-crispy-forms
 django-multiselectfield
 django-easy-select2
+django-select2-forms
+django-nested-admin
+django-phonenumber-field
+django-kronos

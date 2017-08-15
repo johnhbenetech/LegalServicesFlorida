@@ -54,10 +54,14 @@ INSTALLED_APPS = [
     'django_filters',
     'widget_tweaks',
     'bootstrap3',
+    'select2',
+    'nested_admin',
+    'kronos',
     #app
     'homepage',
     'provider',
     'apitoken',
+    'languages',
 ]
 
 MIDDLEWARE = [
@@ -176,3 +180,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     )
 }
+
+EMAIL_HOST = os.environ.get('DJANGO_SMTP_HOST')
+EMAIL_PORT = os.environ.get('DJANGO_SMTP_PORT')
+EMAIL_HOST_USER = os.environ.get('DJANGO_SMTP_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('DJANGO_SMTP_PASSWORD')

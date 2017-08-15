@@ -3,38 +3,102 @@
 {% load add_class %}
 
 {% block content %}
-    <h3>API Token Generated.</h3>
-    <p>
-        Token: {{ token.key }}
-    </p>
+<h3>API Token Generated.</h3>
+<p>
+    Token: {{ token.key }}
+</p>
 
-    <div>
-        <h4>Get Provider List</h4>
-        <code>
-            curl -X GET {% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}{{ object.get_absolute_url }}/api/providers/ -H 'Authorization: Token {{ token.key }}' -H 'Accept: application/json; indent=4'
-        </code>
-    </div>
+<div>
+    <h4>Get Provider List</h4>
+    <code>
+        curl -X GET {% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}/api/v1/providers/ -H 'Authorization: Token {{ token.key }}' -H 'Accept:
+        application/json; indent=4'
+    </code>
+</div>
 
-    <div>
-        <h4>Get Provider</h4>
-        <code>
-            curl -X GET {% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}{{ object.get_absolute_url }}/api/providers/1/ -H 'Authorization: Token {{ token.key }}' -H 'Accept: application/json; indent=4'
-        </code>
-    </div>
+<div>
+    <h4>Get Provider</h4>
+    <code>
+        curl -X GET {% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}/api/v1/providers/1/ -H 'Authorization: Token {{ token.key }}' -H 'Accept:
+        application/json; indent=4'
+    </code>
+</div>
 
-    <div>
-        <h4>Create Provider Update</h4>
-        <code>
+<div>
+    <h4>Create Provider Update</h4>
+    <code>
             <pre>
-curl -X POST {% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}{{ object.get_absolute_url }}/api/provider_updates/ -H 'Authorization: Token {{ token.key }}' -H 'Accept: application/json; indent=4' -d '{
+curl -X POST {% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}/api/v1/provider_updates/ -H 'Authorization: Token 2f7df3124e1cb0bd401f0f4164af1d6dd336ddde' -H 'Accept: application/json; indent=4' -d '{
     "provider": 1,
-    "name": "Test Name",
-    "phone": "Test Phone",
-    "address": "Test Address",
-    "description": "Test Description",
-    "price": 10.0
+    "organization_name": "Organization Name",
+    "phone": "(111)111-1111",
+	"primary_address": "Primary Address",
+	"description": "Description",
+	"price": "10.00",
+	"website_url": "http://site.com/",
+	"counties": [1, 2, 3],
+	"location_updates": [
+        {
+            "location": 1,
+            "name": "Name",
+            "alternate_name": "Altername Name",
+            "description": "Description",
+            "transportation": "Transposration",
+            "latitude": "Lat",
+            "longtitude": "Lng",
+            "physical_address_update": {
+                "physical_address": 1,
+                "attention": "Attention",
+                "address_1": "Address 1",
+                "address_2": "Address 2",
+                "address_3": "Address 3",
+                "address_4": "Address 4",
+                "city": "City",
+                "region": "Region",
+                "state_province": "MS",
+                "postal_code": "Postal Code"
+            },
+            "contact_updates": [
+                {
+                    "contact": 2,
+                    "name": "Name",
+                    "title": "Title",
+                    "department": "Department",
+                    "email": "mail@mail.com",
+                    "phone_updates": []
+                },
+                {
+                    "contact": 1,
+                    "name": "Name",
+                    "title": "Title",
+                    "department": "Department",
+                    "email": "mail@mail.com",
+                    "phone_updates": [
+                        {
+                            "phone": 2,
+                            "number": "(555)555-5555",
+                            "extension": "2",
+                            "type": "fixed",
+                            "department": "Department",
+                            "languages": [1,2,3],
+                            "description": "Description"
+                        },
+                        {
+                            "phone": 1,
+                            "number": "(666)666-6666",
+                            "extension": "123",
+                            "type": "fixed",
+                            "department": "Department",
+                            "languages": [10,20],
+                            "description": "40"
+                        }
+                    ]
+                }
+            ]
+        }
+	]
 }' -H 'Content-Type: application/json'
             </pre>
-        </code>
-    </div>
+    </code>
+</div>
 {% endblock %}

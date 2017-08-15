@@ -1,0 +1,12 @@
+<p>
+    New updates were created this week.
+</p>
+<p>
+    <ul>
+        {% for provider_update in provider_updates %}
+            <li>
+                <a href="http://localhost/{% url 'admin:provider_providerupdate_change' provider_update.id %}">http://localhost/{% url 'admin:provider_providerupdate_change' provider_update.id %}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</p>

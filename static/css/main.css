@@ -24,3 +24,22 @@
 .rejected{
         background-color: indianred
     }
+.select2-input {
+    width: 300px! important;
+}
+
+.location-update-container {
+    margin-left: 100px;
+}
+
+.contact-update-form {
+    margin-left: 100px;
+}
+
+.physical_address-update-form {
+    margin-left: 100px;
+}
+
+.phone-update-form {
+    margin-left: 100px;
+}
