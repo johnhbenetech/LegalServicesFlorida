@@ -1,0 +1,5 @@
+New updates were created this week.
+
+{% for service_update in service_updates %}
+http://localhost/{% url 'admin:service_serviceupdate_change' service_update.id %}
+{% endfor %}

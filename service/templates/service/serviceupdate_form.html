@@ -1,0 +1,710 @@
+{% extends 'layout.html' %}
+
+{% load add_class %}
+
+{% block content %}
+<style>
+
+.form-control-sm{
+width: 40%;
+}
+
+.booleanbox {
+    width: 40%;
+    box-shadow: none;
+    text-align: left;
+}
+
+</style>
+
+
+<form class="form-horizontal" action="" method="POST">
+    {% csrf_token %}
+    <legend><h1>Service Information</h1></legend>
+    {% for field in form %}
+    {% if field.name != 'interpretation_services' and field.name != 'taxonomy_ids' %}
+    <div class="form-group {% if field.errors %}has-error{% endif %}">
+        <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+        <div class="col-sm-10 ">
+            {{ field|add_class:'form-control input-lg' }}
+            {% if field.errors %}
+            <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
+            {% endif %}
+            {% if field.help_text %}
+            <span class="help-block ">{{ field.help_text }}</span>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+    {% for field in form %}
+    {% if field.name == 'interpretation_services' or field.name == 'taxonomy_ids' %}
+    <div class="form-group {% if field.errors %}has-error{% endif %}">
+        <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+        <div class="col-sm-10 ">
+            {{ field }}
+            {% if field.errors %}
+            <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
+            {% endif %}
+            {% if field.help_text %}
+            <span class="help-block ">{{ field.help_text }}</span>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+<br>
+    <div class="eligibility-update-container">
+        {{ eligibility_update_form.management_form }}
+        {{ eligibility_update_form.non_form_errors }}
+        <legend><h2>Eligibilities</h2></legend>
+        <div class="eligibility-update-forms-container">
+            {% for eligibility_update_single_form in eligibility_update_form %}
+            <div class="inline">
+                <legend>Eligibility Update #{{ forloop.counter }}</legend>
+
+                {% for hidden in eligibility_update_single_form.hidden_fields %}
+                {{ hidden }}
+                {% endfor %}
+
+                {% for field in eligibility_update_single_form.visible_fields %}
+
+                <div class="form-group {% if field.errors %}has-error{% endif %}">
+                    <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+                    <div class="col-sm-10 ">
+                        {{ field|add_class:'form-control input-lg' }}
+                        {% if field.errors %}
+                        <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
+                        {% endif %}
+                        {% if field.help_text %}
+                        <span class="help-block ">{{ field.help_text }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endfor %}
+        </div>
+        {% include "service/serviceupdate_form/eligibility_update_form_empty_form.html" with eligibility_update_formset=eligibility_update_form %}
+    </div>
+
+<br>    
+    <div class="paymentaccepted-update-container">
+        {{ paymentaccepted_update_form.management_form }}
+        {{ paymentaccepted_update_form.non_form_errors }}
+        <legend><h2>Payments Accepted</h2></legend>
+        <div class="paymentaccepted-update-forms-container">
+            {% for paymentaccepted_update_single_form in paymentaccepted_update_form %}
+            <div class="inline">
+                <legend>Payment Accepted Update #{{ forloop.counter }}</legend>
+
+                {% for hidden in paymentaccepted_update_single_form.hidden_fields %}
+                {{ hidden }}
+                {% endfor %}
+
+                {% for field in paymentaccepted_update_single_form.visible_fields %}
+
+                <div class="form-group {% if field.errors %}has-error{% endif %}">
+                    <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+                    <div class="col-sm-10 ">
+                        {{ field|add_class:'form-control input-lg' }}
+                        {% if field.errors %}
+                        <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
+                        {% endif %}
+                        {% if field.help_text %}
+                        <span class="help-block ">{{ field.help_text }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endfor %}
+        </div>
+        {% include "service/serviceupdate_form/paymentaccepted_update_form_empty_form.html" with paymentaccepted_update_formset=paymentaccepted_update_form %}
+    </div>    
+
+    <div class="requireddocument-update-container">
+        {{ requireddocument_update_form.management_form }}
+        {{ requireddocument_update_form.non_form_errors }}
+
+        <div class="requireddocument-update-forms-container">
+            {% for requireddocument_update_single_form in requireddocument_update_form %}
+            <div class="inline">
+                <legend>Required Document Update #{{ forloop.counter }}</legend>
+
+                {% for hidden in requireddocument_update_single_form.hidden_fields %}
+                {{ hidden }}
+                {% endfor %}
+
+                {% for field in requireddocument_update_single_form.visible_fields %}
+
+                <div class="form-group {% if field.errors %}has-error{% endif %}">
+                    <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+                    <div class="col-sm-10 ">
+                        {{ field|add_class:'form-control input-lg' }}
+                        {% if field.errors %}
+                        <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
+                        {% endif %}
+                        {% if field.help_text %}
+                        <span class="help-block ">{{ field.help_text }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endfor %}
+        </div>
+        {% include "service/serviceupdate_form/requireddocument_update_form_empty_form.html" with requireddocument_update_formset=requireddocument_update_form %}
+    </div> 
+
+    
+    <div class="regularschedule-update-container">
+        {{ regularschedule_update_form.management_form }}
+        {{ regularschedule_update_form.non_form_errors }}
+
+        <div class="regularschedule-update-forms-container">
+            {% for regularschedule_update_single_form in regularschedule_update_form %}
+            
+            <div class="">
+                <legend>Regular Schedule Update #{{ forloop.counter }}</legend>
+
+                {% for hidden in regularschedule_update_single_form.hidden_fields %}
+                {{ hidden }}
+                {% endfor %}
+
+                {% for field in regularschedule_update_single_form.visible_fields %}
+
+                <div class="form-group {% if field.errors %}has-error{% endif %}">
+                    <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+                    <div class="col-sm-10 ">
+                        {% if field.name == 'weekday' or field.name == 'from_hour' or field.name == 'to_hour' %}
+                        {{ field|add_class:'form-control-sm input-lg' }}
+                        {% elif field.name == 'closed' %}
+                        {{ field|add_class:'booleanbox input-sm' }}
+                        {% else %}
+                        {{ field|add_class:'form-control input-lg'  }}
+                        {% endif %}
+                        {% if field.errors %}
+                        <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
+                        {% endif %}
+                        {% if field.help_text %}
+                        <span class="help-block ">{{ field.help_text }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endfor %}
+        </div>
+        {% include "service/serviceupdate_form/regularschedule_update_form_empty_form.html" with regularschedule_update_formset=regularschedule_update_form %}
+    </div> 
+	
+    <div class="holidayschedule-update-container">
+        {{ holidayschedule_update_form.management_form }}
+        {{ holidayschedule_update_form.non_form_errors }}
+
+        <div class="holidayschedule-update-forms-container">
+            {% for holidayschedule_update_single_form in holidayschedule_update_form %}
+            <div class="inline">
+                <legend>Holiday Schedule Update #{{ forloop.counter }}</legend>
+
+                {% for hidden in holidayschedule_update_single_form.hidden_fields %}
+                {{ hidden }}
+                {% endfor %}
+
+                {% for field in holidayschedule_update_single_form.visible_fields %}
+
+                <div class="form-group {% if field.errors %}has-error{% endif %}">
+                    <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+                    <div class="col-sm-10 ">
+                        {% if field.name == 'day' or field.name == 'from_hour' or field.name == 'to_hour' %}
+                        {{ field|add_class:'form-control input-lg' }}
+                        {% elif field.name == 'closed' %}
+                        {{ field|add_class:'booleanbox input-sm' }}
+                        {% else %}
+                        {{ field|add_class:'form-control input-lg'  }}
+                        {% endif %}
+                        {% if field.errors %}
+                        <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
+                        {% endif %}
+                        {% if field.help_text %}
+                        <span class="help-block ">{{ field.help_text }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endfor %}
+        </div>
+        {% include "service/serviceupdate_form/holidayschedule_update_form_empty_form.html" with holidayschedule_update_formset=holidayschedule_update_form %}
+    </div> 	
+	
+	<div class="servicearea-update-container">
+        {{ servicearea_update_form.management_form }}
+        {{ servicearea_update_form.non_form_errors }}
+
+        <div class="servicearea-update-forms-container">
+            {% for servicearea_update_single_form in servicearea_update_form %}
+            <div class="inline">
+                <legend>Service Area Update #{{ forloop.counter }}</legend>
+
+                {% for hidden in servicearea_update_single_form.hidden_fields %}
+                {{ hidden }}
+                {% endfor %}
+
+                {% for field in servicearea_update_single_form.visible_fields %}
+                <div class="form-group {% if field.errors %}has-error{% endif %}">
+                    <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+                    <div class="col-sm-10 ">
+                        {% if field.name != 'area' %}
+                        {{ field|add_class:'form-control input-lg' }}
+                        {% else %}
+                        
+                        {{ field }}
+                        {% endif %}
+                        {% if field.errors %}
+                        <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
+                        {% endif %}
+                        {% if field.help_text %}
+                        <span class="help-block ">{{ field.help_text }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+
+
+            </div>
+
+            {% endfor %}
+        </div>
+        {% include "service/serviceupdate_form/servicearea_update_form_empty_form.html" with servicearea_update_formset=servicearea_update_form %}
+    </div> 
+
+
+    <div class="validationnote-update-container">
+        {{ validationnote_update_form.management_form }}
+        {{ validationnote_update_form.non_form_errors }}
+
+        <div class="validationnote-update-forms-container">
+            {% for validationnote_update_single_form in validationnote_update_form %}
+            <div class="inline">
+                <legend>Validation Note</legend>
+
+                {% for hidden in validationnote_update_single_form.hidden_fields %}
+                {{ hidden }}
+                {% endfor %}
+
+                {% for field in validationnote_update_single_form.visible_fields %}
+
+                <div class="form-group {% if field.errors %}has-error{% endif %}">
+                    <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+                    <div class="col-sm-10 ">
+                        {{ field|add_class:'form-control input-lg' }}
+                        {% if field.errors %}
+                        <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
+                        {% endif %}
+                        {% if field.help_text %}
+                        <span class="help-block ">{{ field.help_text }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endfor %}
+        </div>
+        {% include "service/serviceupdate_form/validationnote_update_form_empty_form.html" with validationnote_update_formset=validationnote_update_form %}
+    </div>
+	
+    
+    <div class="location-update-container">
+        {{ location_update_form.management_form }}
+        {{ location_update_form.non_form_errors }}
+
+        <div class="location-update-forms-container">
+            {% for location_update_single_form in location_update_form %}
+            <div class="inline">
+                <legend>Location Update #{{ forloop.counter }}</legend>
+
+                {% for hidden in location_update_single_form.hidden_fields %}
+                {{ hidden }}
+                {% endfor %}
+
+                {% for field in location_update_single_form.visible_fields %}
+
+                <div class="form-group {% if field.errors %}has-error{% endif %}">
+                    <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+                    <div class="col-sm-10 ">
+                        {{ field|add_class:'form-control input-lg' }}
+                        {% if field.errors %}
+                        <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
+                        {% endif %}
+                        {% if field.help_text %}
+                        <span class="help-block ">{{ field.help_text }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% endfor %}
+
+                <!--  PhysicalAddressUpdateForm  -->
+                <div class="physical_address-update-form">
+                    {% if location_update_single_form.physical_address_update %}
+
+                    {{ location_update_single_form.physical_address_update.management_form }}
+                    {{ location_update_single_form.physical_address_update.non_form_errors }}
+                    <div class="physical_address-update-forms-container">
+                        {% for physical_address_update_form in location_update_single_form.physical_address_update.forms %}
+    
+                        <div class="inline">
+                            <legend>Physical Address Update #{{ forloop.counter }}</legend>
+    
+                            {% for hidden in physical_address_update_form.hidden_fields %}
+                            {{ hidden }}
+                            {% endfor %}
+    
+                            {% for field in physical_address_update_form.visible_fields %}
+                            <div class="form-group {% if field.errors %}has-error{% endif %}">
+                                <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+                                <div class="col-sm-10 ">
+                                    {{ field|add_class:'form-control input-lg' }}
+                                    {% if field.errors %}
+                                    <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
+                                    {% endif %}
+                                    {% if field.help_text %}
+                                    <span class="help-block ">{{ field.help_text }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endfor %}
+                    </div> 
+                    {% include "service/serviceupdate_form/physical_address_update_form_empty_form.html" with physical_address_update_formset=location_update_single_form.physical_address_update %}
+                    
+                </div>
+                {% endif %}
+                
+                
+                <!-- //PhysicalAddressUpdateForm -->
+
+                <!--  ContactUpdateForm  -->
+                <div class="contact-update-form">
+                    {% if location_update_single_form.contact_update %}
+                    {{ location_update_single_form.contact_update.management_form }}
+                    {{ location_update_single_form.contact_update.non_form_errors }}
+
+                    <div class="contact-update-forms-container">
+                    {% for contact_update_form in location_update_single_form.contact_update.forms %}
+                        <div class="inline">
+                            <legend>Contact Update #{{ forloop.counter }}</legend>
+
+                            {% for hidden in contact_update_form.hidden_fields %}
+                            {{ hidden }}
+                            {% endfor %}
+
+                            {% for field in contact_update_form.visible_fields %}
+                            <div class="form-group {% if field.errors %}has-error{% endif %}">
+                                <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+                                <div class="col-sm-10 ">
+                                    {{ field|add_class:'form-control input-lg' }}
+                                    {% if field.errors %}
+                                    <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
+                                    {% endif %}
+                                    {% if field.help_text %}
+                                    <span class="help-block ">{{ field.help_text }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+
+                            <!-- PhoneUpdate -->
+
+                            <div class="phone-update-form">
+                                {% if contact_update_form.phone_update %}
+
+                                {{ contact_update_form.phone_update.management_form }}
+                                {{ contact_update_form.phone_update.non_form_errors }}
+
+                                <div class="phone-update-forms-container">
+                                    {% for phone_update_form in contact_update_form.phone_update.forms %}
+                                            <div class="inline">
+                                                <legend>Phone Update #{{ forloop.counter }}</legend>
+
+                                                {% for hidden in phone_update_form.hidden_fields %}
+                                                {{ hidden }}
+                                                {% endfor %}
+
+                                                {% for field in phone_update_form.visible_fields %}
+                                                <div class="form-group {% if field.errors %}has-error{% endif %}">
+                                                    <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+                                                    <div class="col-sm-10 ">
+                                                        {% if field.name != 'languages' %}
+                                                        {{ field|add_class:'form-control input-lg' }}
+                                                        {% else %}
+                                                        {{ field }}
+                                                        {% endif %}
+                                                        {% if field.errors %}
+                                                        <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
+                                                        {% endif %}
+                                                        {% if field.help_text %}
+                                                        <span class="help-block ">{{ field.help_text }}</span>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                    {% endfor %}
+                                </div>
+                                {% include "service/serviceupdate_form/phone_update_form_empty_form.html" with phone_update_formset=contact_update_form.phone_update %}
+                                {% endif %}
+                            </div>
+                            <!-- //PhoneUpdate -->
+                        </div>
+                    {% endfor %}
+                    </div>
+                    {% include "service/serviceupdate_form/contact_update_form_empty_form.html" with contact_update_formset=location_update_single_form.contact_update %}
+                </div>
+                {% endif %}
+                <!--  //ContactUpdateForm  -->
+
+            </div>
+
+        {% endfor %}
+        </div>
+        {% include "service/serviceupdate_form/location_update_form_empty_form.html" with location_update_formset=location_update_form %}
+    </div>
+    
+    
+    <div style="margin-top: 30px;">
+        <input type="submit" value="Submit" class="btn btn-primary btn-lg pull-right">
+    </div>
+   
+</form>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    {{ block.super }}
+    $(function () {
+        $('#id_service').on('change', function () {
+            document.location.href = "{% url 'service:update' %}?service_id=" + $('#id_service').val();
+        });
+        $('#id_phone').mask("(999)999-9999");
+        $('.phone_number').mask("(999)999-9999");
+        
+        addEligibilityForm = function() {
+            var prefix = $(this).attr('prefix');
+            var empty_form_name = $(this).attr('empty_form');
+            var empty_form = $('.' + empty_form_name);
+            var container = $(this).parent('div.add_eligibility_button_container').parent('.eligibility-update-container').find('.eligibility-update-forms-container');
+            var total_forms = $('#id_' + prefix + 'TOTAL_FORMS');
+            var form_idx = total_forms.val();
+            var container = container.append(empty_form.html().replace(/__prefix__/g, form_idx));
+            var new_form = container.children('.inline:last');
+            var new_form_idx = parseInt(form_idx) + 1;
+            total_forms.val(new_form_idx);
+            new_form.find('.eligibility_prefix_id').html(new_form_idx);
+            $(document).trigger('formset:added_custom', [new_form]);
+        };
+        
+        addPaymentAcceptedForm = function() {
+            var prefix = $(this).attr('prefix');
+            var empty_form_name = $(this).attr('empty_form');
+            var empty_form = $('.' + empty_form_name);
+            var container = $(this).parent('div.add_paymentaccepted_button_container').parent('.paymentaccepted-update-container').find('.paymentaccepted-update-forms-container');
+            var total_forms = $('#id_' + prefix + 'TOTAL_FORMS');
+            var form_idx = total_forms.val();
+            var container = container.append(empty_form.html().replace(/__prefix__/g, form_idx));
+            var new_form = container.children('.inline:last');
+            var new_form_idx = parseInt(form_idx) + 1;
+            total_forms.val(new_form_idx);
+            new_form.find('.paymentaccepted_prefix_id').html(new_form_idx);
+            $(document).trigger('formset:added_custom', [new_form]);
+        };   
+
+        addRequiredDocumentForm = function() {
+            var prefix = $(this).attr('prefix');
+            var empty_form_name = $(this).attr('empty_form');
+            var empty_form = $('.' + empty_form_name);
+            var container = $(this).parent('div.add_requireddocument_button_container').parent('.requireddocument-update-container').find('.requireddocument-update-forms-container');
+            var total_forms = $('#id_' + prefix + 'TOTAL_FORMS');
+            var form_idx = total_forms.val();
+            var container = container.append(empty_form.html().replace(/__prefix__/g, form_idx));
+            var new_form = container.children('.inline:last');
+            var new_form_idx = parseInt(form_idx) + 1;
+            total_forms.val(new_form_idx);
+            new_form.find('.requireddocument_prefix_id').html(new_form_idx);
+            $(document).trigger('formset:added_custom', [new_form]);
+        };  
+        
+        addRegularScheduleForm = function() {
+            var prefix = $(this).attr('prefix');
+            var empty_form_name = $(this).attr('empty_form');
+            var empty_form = $('.' + empty_form_name);
+            var container = $(this).parent('div.add_regularschedule_button_container').parent('.regularschedule-update-container').find('.regularschedule-update-forms-container');
+            var total_forms = $('#id_' + prefix + 'TOTAL_FORMS');
+            var form_idx = total_forms.val();
+            var container = container.append(empty_form.html().replace(/__prefix__/g, form_idx));
+            var new_form = container.children('.inline:last');
+            var new_form_idx = parseInt(form_idx) + 1;
+            total_forms.val(new_form_idx);
+            new_form.find('.regularschedule_prefix_id').html(new_form_idx);
+            $(document).trigger('formset:added_custom', [new_form]);
+        };          
+
+        addHolidayScheduleForm = function() {
+            var prefix = $(this).attr('prefix');
+            var empty_form_name = $(this).attr('empty_form');
+            var empty_form = $('.' + empty_form_name);
+            var container = $(this).parent('div.add_holidayschedule_button_container').parent('.holidayschedule-update-container').find('.holidayschedule-update-forms-container');
+            var total_forms = $('#id_' + prefix + 'TOTAL_FORMS');
+            var form_idx = total_forms.val();
+            var container = container.append(empty_form.html().replace(/__prefix__/g, form_idx));
+            var new_form = container.children('.inline:last');
+            var new_form_idx = parseInt(form_idx) + 1;
+            total_forms.val(new_form_idx);
+            new_form.find('.holidayschedule_prefix_id').html(new_form_idx);
+            $(document).trigger('formset:added_custom', [new_form]);
+        };
+        
+        addServiceAreaForm = function() {
+            var prefix = $(this).attr('prefix');
+            var empty_form_name = $(this).attr('empty_form');
+            var empty_form = $('.' + empty_form_name);
+            var container = $(this).parent('div.add_servicearea_button_container').parent('.servicearea-update-container').find('.servicearea-update-forms-container');
+            var total_forms = $('#id_' + prefix + 'TOTAL_FORMS');
+            var form_idx = total_forms.val();
+            var container = container.append(empty_form.html().replace(/__prefix__/g, form_idx));
+            var new_form = container.children('.inline:last');
+            var new_form_idx = parseInt(form_idx) + 1;
+            total_forms.val(new_form_idx);
+            new_form.find('.servicearea_prefix_id').html(new_form_idx);
+            $(document).trigger('formset:added_custom', [new_form]);
+        };    	
+
+        addLocationForm = function() {
+            var prefix = $(this).attr('prefix');
+            var empty_form_name = $(this).attr('empty_form');
+            var empty_form = $('.' + empty_form_name);
+            var container = $(this).parent('div.add_location_button_container').parent('.location-update-container').find('.location-update-forms-container');
+            var total_forms = $('#id_' + prefix + 'TOTAL_FORMS');
+            var form_idx = total_forms.val();
+            var container = container.append(empty_form.html().replace(/__prefix__/g, form_idx));
+            var new_form = container.children('.inline:last');
+            var new_form_idx = parseInt(form_idx) + 1;
+            total_forms.val(new_form_idx);
+            new_form.find('.location_prefix_id').html(new_form_idx);
+            $(document).trigger('formset:added_custom', [new_form]);
+        };
+        addPhysicalAddressForm = function() {
+            var prefix = $(this).attr('prefix');
+            console.log(prefix);
+            var empty_form_name = $(this).attr('empty_form');
+            var empty_form = $('.' + empty_form_name);
+            var container = $(this).parent('div.add_physical_address_button_container').parent('.physical_address-update-form').find('.physical_address-update-forms-container');
+            var total_forms = $('#id_' + prefix + 'TOTAL_FORMS');
+            var form_idx = total_forms.val();
+            var container = container.append(empty_form.html().replace(/__physical_address_update_prefix__/g, form_idx));
+            var new_form = container.children('.inline:last');
+            var new_form_idx = parseInt(form_idx) + 1;
+            total_forms.val(new_form_idx);
+            new_form.find('.physical_address_update_form_idx').html(new_form_idx);
+            $(document).trigger('formset:added_custom', [new_form]);
+        };
+        addContactForm = function() {
+            var prefix = $(this).attr('prefix');
+            var empty_form_name = $(this).attr('empty_form');
+            var empty_form = $('.' + empty_form_name);
+            var container = $(this).parent('div.add_contact_button_container').parent('.contact-update-form').find('.contact-update-forms-container');
+            var total_forms = $('#id_' + prefix + 'TOTAL_FORMS');
+            var form_idx = total_forms.val();
+            var container = container.append(empty_form.html().replace(/__contact_update_prefix__/g, form_idx));
+            var new_form = container.children('.inline:last');
+            var new_form_idx = parseInt(form_idx) + 1;
+            total_forms.val(new_form_idx);
+            new_form.find('.contact_update_form_idx').html(new_form_idx);
+            $(document).trigger('formset:added_custom', [new_form]);
+        };
+        addPhoneForm = function() {
+            var prefix = $(this).attr('prefix');
+            var empty_form_name = $(this).attr('empty_form');
+            var empty_form = $('.' + empty_form_name);
+            var container = $(this).parent('div.add_phone_button_container').parent('.phone-update-form').find('.phone-update-forms-container');
+            var total_forms = $('#id_' + prefix + 'TOTAL_FORMS');
+            var form_idx = total_forms.val();
+            container.append(empty_form.html().replace(/__phone_update_prefix__/g, form_idx));
+            var new_form = container.find('.inline:last')
+            var new_form_idx = parseInt(form_idx) + 1;
+            total_forms.val(new_form_idx);
+            new_form.find('.phone_update_form_idx').html(new_form_idx);
+            $(document).trigger('formset:added_custom', [new_form]);
+        };
+     
+        
+        delButtonAction = function() {
+            var prefix = $(this).attr('prefix');
+            var total_forms = $('#id_' + prefix + 'TOTAL_FORMS');
+            var form_idx = total_forms.val();
+            var new_form_idx = parseInt(form_idx) - 1;
+            total_forms.val(new_form_idx);
+            var form_container = $(this).parent('legend').parent('.inline');
+            form_container.remove();
+        }
+        updateAddButtons = function() {
+            $(document).off('click', '.add_eligibility');
+            $(document).off('click', '.add_paymentaccepted');
+            $(document).off('click', '.add_requireddocument');
+            $(document).off('click', '.add_regularschedule');
+            $(document).off('click', '.add_holidayschedule');
+			$(document).off('click', '.add_servicearea');
+            $(document).off('click', '.add_location');
+            $(document).off('click', '.add_physical_address');
+            $(document).off('click', '.add_contact');
+            $(document).off('click', '.add_phone');
+            $(document).off('click', '.del_button')
+            $(document).on('click', '.add_eligibility', addEligibilityForm);
+            $(document).on('click', '.add_paymentaccepted', addPaymentAcceptedForm);
+            $(document).on('click', '.add_requireddocument', addRequiredDocumentForm);
+            $(document).on('click', '.add_regularschedule', addRegularScheduleForm);
+            $(document).on('click', '.add_holidayschedule', addHolidayScheduleForm);
+            $(document).on('click', '.add_servicearea', addServiceAreaForm);
+            $(document).on('click', '.add_location', addLocationForm);
+            $(document).on('click', '.add_physical_address', addPhysicalAddressForm);
+            $(document).on('click', '.add_contact', addContactForm);
+            $(document).on('click', '.add_phone', addPhoneForm);
+            $(document).on('click', '.del_button', delButtonAction);
+        }
+        
+        $(document).on('formset:added_custom', function(event, form) {
+            updateAddButtons();
+            $('.phone_number').mask("(999)999-9999");
+            $(form).find('input.django-select2:not([name*="__prefix__"]):not([name*="__phone_update_prefix__"]):not([name*="__contact_update_prefix__"]):not([name*="__physical_address_update_prefix__"])').each(function(i, django_select2) {
+                DjangoSelect2.init(django_select2);
+            });
+        });
+        updateAddButtons();
+    });
+</script>
+{{ form.media }}
+{% endblock %}

@@ -2924,8 +2924,9 @@ require('./jquery.ui.nestedsortable');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function updatePositions(prefix, skipDeleted) {
+function updatePositions(prefix) {
     var position = 0,
+        count = 1,
         $group = (0, _jquery2.default)('#' + prefix + '-group'),
         groupData = $group.djnData(),
         fieldNames = groupData.fieldNames,
@@ -2937,7 +2938,6 @@ function updatePositions(prefix, skipDeleted) {
         index = _ref2[2],
         sortableOptions = groupData.sortableOptions,
         sortableExcludes = (sortableOptions || {}).sortableExcludes || [];
-
 
     sortableExcludes.push(groupFkName);
 
@@ -2975,6 +2975,13 @@ function updatePositions(prefix, skipDeleted) {
             return;
         }
 
+        // Set header position for stacked inlines in Django 1.9+
+        var $inlineLabel = $this.find('> h3 > .inline_label');
+        if ($inlineLabel.length) {
+            $inlineLabel.html($inlineLabel.html().replace(/(#\d+)/g, '#' + count));
+        }
+        count++;
+
         var $fields = $this.djangoFormField('*'),
             $positionField,
             setPosition = false;
@@ -3001,13 +3008,8 @@ function updatePositions(prefix, skipDeleted) {
             return;
         }
 
-        // Skip the element if it's marked to be deleted
-        if (skipDeleted && ($this.hasClass('predelete') || $this.hasClass('grp-predelete'))) {
-            $positionField.val('0').trigger('change');
-        } else {
-            $positionField.val(position).trigger('change');
-            position++;
-        }
+        $positionField.val(position).trigger('change');
+        position++;
     });
 }
 
@@ -3406,7 +3408,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
     // Set predelete class on any form elements with the DELETE input checked.
     // These can occur on forms rendered after a validation error.
-    (0, _jquery2.default)('input[name$="-DELETE"]:checked').not('[name*="__prefix__"]').closest('.djn-inline-form').addClass('predelete');
+    (0, _jquery2.default)('input[name$="-DELETE"]:checked').not('[name*="__prefix__"]').closest('.djn-inline-form').addClass('grp-predelete');
 
     (0, _jquery2.default)(document).on('djnesting:initialized djnesting:mutate', function onMutate(e, $inline) {
         var $items = $inline.find('> .djn-items, > .tabular > .module > .djn-items');
@@ -3426,7 +3428,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
     (0, _jquery2.default)('form').on('submit.djnesting', function (e) {
         (0, _jquery2.default)('.djn-group').each(function () {
-            _utils2.default.updatePositions((0, _jquery2.default)(this).djangoFormsetPrefix(), true);
+            _utils2.default.updatePositions((0, _jquery2.default)(this).djangoFormsetPrefix());
             (0, _jquery2.default)(document).trigger('djnesting:mutate', [(0, _jquery2.default)(this).djangoFormset().$inline]);
         });
     });

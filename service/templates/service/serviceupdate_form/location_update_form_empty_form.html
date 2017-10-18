@@ -1,0 +1,65 @@
+{% load add_class %}
+{% load str_replace %}
+
+<div class="{% str_replace '__prefix__' 'empty_form' location_update_formset.empty_form.prefix %}" style="display: none;">
+    <div class="inline">
+        <legend>
+            Location Update #<span class="location_prefix_id"></span>
+            <a href="javascript:;" class="del_button" prefix="{% str_replace '__prefix__' '' location_update_formset.empty_form.prefix %}">(delete)</a>
+        </legend>
+        {% for hidden in location_update_formset.empty_form.hidden_fields %}
+        {{ hidden }}
+        {% endfor %}
+        {% for field in location_update_formset.empty_form.visible_fields %}
+        <div class="form-group {% if field.errors %}has-error{% endif %}">
+            <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+            <div class="col-sm-10 ">
+                {{ field|add_class:'form-control input-lg' }}
+                {% if field.errors %}
+                <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
+                {% endif %}
+                {% if field.help_text %}
+                <span class="help-block ">{{ field.help_text }}</span>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+
+        <!--  PhysicalAddressUpdateForm  -->
+        <div class="physical_address-update-form">
+            {% if location_update_formset.empty_form.physical_address_update %}
+
+            {{ location_update_formset.empty_form.physical_address_update.management_form }}
+            {{ location_update_formset.empty_form.physical_address_update.non_form_errors }}
+
+            <div class="physical_address-update-forms-container">
+            </div>
+
+            {% include "service/serviceupdate_form/physical_address_update_form_empty_form.html" with physical_address_update_formset=location_update_formset.empty_form.physical_address_update %}
+
+            {% endif %}
+        </div>
+        <!-- //PhysicalAddressUpdateForm -->
+
+        <!-- ContactUpdateForm -->
+        <div class="contact-update-form">
+            {% if location_update_formset.empty_form.contact_update %}
+
+            {{ location_update_formset.empty_form.contact_update.management_form }}
+            {{ location_update_formset.empty_form.contact_update.non_form_errors }}
+
+            <div class="contact-update-forms-container">
+            </div>
+
+            {% include "service/serviceupdate_form/contact_update_form_empty_form.html" with contact_update_formset=location_update_formset.empty_form.contact_update %}
+
+            {% endif %}
+        </div>
+        <!-- //ContactUpdateForm -->
+
+    </div>
+</div>
+
+<div style="text-align: right" class="add_location_button_container">
+    <a href="javascript: ;" class="add_location btn btn-primary add_button" prefix="{% str_replace '__prefix__' '' location_update_formset.empty_form.prefix %}" empty_form="{% str_replace '__prefix__' 'empty_form' location_update_formset.empty_form.prefix %}">Add another location</a>
+</div>

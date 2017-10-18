@@ -1,0 +1,37 @@
+{% load add_class %}
+{% load str_replace %}
+
+<div class="{% str_replace '__physical_address_update_prefix__' 'empty_form' physical_address_update_formset.empty_form.prefix %}"
+     style="display: none;">
+    <div class="inline">
+        <legend>
+            Physical Address Update #<span class="physical_address_update_form_idx"></span>
+            <a href="javascript:;" class="del_button" prefix="{% str_replace '__physical_address_update_prefix__' '' physical_address_update_formset.empty_form.prefix %}">(delete)</a>
+        </legend>
+        {% for hidden in physical_address_update_formset.empty_form.hidden_fields %}
+        {{ hidden }}
+        {% endfor %}
+        {% for field in physical_address_update_formset.empty_form.visible_fields %}
+        <div class="form-group {% if field.errors %}has-error{% endif %}">
+            <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+            <div class="col-sm-10 ">
+                {{ field|add_class:'form-control input-lg' }}
+                {% if field.errors %}
+                <span class='text-danger'>{{ field.errors|join:'<br/>' }}</span>
+                {% endif %}
+                {% if field.help_text %}
+                <span class="help-block ">{{ field.help_text }}</span>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+<div style="text-align: right; margin-bottom: 20px;" class="add_physical_address_button_container">
+    <a href="javascript: ;" class="add_physical_address btn btn-primary add_button"
+       prefix="{% str_replace '__physical_address_update_prefix__' '' physical_address_update_formset.empty_form.prefix %}"
+       empty_form="{% str_replace '__physical_address_update_prefix__' 'empty_form' physical_address_update_formset.empty_form.prefix %}">Add another
+        address</a>
+</div>

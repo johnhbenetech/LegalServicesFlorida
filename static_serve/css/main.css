@@ -8,6 +8,7 @@
 
 
 
+
 .navbar-brand img{
     padding-top: 10px;
 }
@@ -28,6 +29,48 @@
     width: 300px! important;
 }
 
+
+/*
+.eligibility-update-container {
+    margin-left: 100px;
+}
+  
+  
+.paymentaccepted-update-container {
+    margin-left: 100px;
+}
+
+.requireddocument-update-container {
+    margin-left: 100px;
+}
+
+.regularschedule-update-container {
+    margin-left: 100px;
+}
+
+.holidayschedule-update-container {
+    margin-left: 100px;
+}
+.holidayschedule-container {
+    margin-left: 100px;
+}
+
+.servicearea-update-container {
+    margin-left: 100px;
+}
+
 .location-update-container {
+    margin-left: 100px;
+}
+*/
+.contact-update-form {
+    margin-left: 100px;
+}
+
+.physical_address-update-form {
+    margin-left: 100px;
+}
+
+.phone-update-form {
     margin-left: 100px;
 }

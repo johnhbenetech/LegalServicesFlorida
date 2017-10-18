@@ -36,8 +36,8 @@
     <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
             {% if user.is_authenticated %}
-            <li><a href="{% url 'provider:update' %}">Provider Update</a></li>
-            <li><a href="{% url 'provider:myupdates' %}">My Updates</a></li>
+            <li><a href="{% url 'service:update' %}">Service Update</a></li>
+            <li><a href="{% url 'service:myupdates' %}">My Updates</a></li>
             <li><a href="{% url 'token:get' %}">API Token</a></li>
             {% else %}
             {% endif %}

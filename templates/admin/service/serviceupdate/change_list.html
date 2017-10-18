@@ -1,0 +1,27 @@
+{% extends "reversion/change_list.html" %}
+
+
+
+{% block object-tools-items %}
+    {{ block.super }}
+    <li><a class="historylink" href="/email">SEND UPDATE EMAIL</a></li>
+{% endblock %}
+
+
+
+
+
+{% block extrastyle %}
+    {{ block.super }}
+    <style>
+        .status_UNPROCESSED {
+            background-color: rgba(255, 255, 0, 0.3);
+        }
+        .status_ACCEPTED {
+            background-color: rgba(0, 255, 0, 0.3);
+        }
+        .status_REJECTED {
+            background-color: rgba(255, 0, 0, 0.3);
+        }
+    </style>
+{% endblock %}

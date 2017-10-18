@@ -1,0 +1,217 @@
+{% extends "admin/change_form.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block submit_buttons_bottom %}
+
+   <div class="submit-row">
+        <input type="submit" value="{% trans 'Push Update' %}" name="_push_update" class="push_update" />
+        <input type="submit" value="{% trans 'Reject Update' %}" name="_reject_update" class="reject_update" />
+    </div>
+
+    {{ block.super }}
+{% endblock %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <style>
+        .different_field {
+            outline: 5px solid red! important;
+        }
+        .push_update {
+            background-color: green! important;
+        }
+        .reject_update {
+            background-color: red! important;
+        }
+
+        .field-box {
+            width: 45%;
+        }
+    </style>
+{% endblock %}
+
+{% block extrahead %}{{ block.super }}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="{% static 'js/jquery.maskedinput.min.js' %}"></script>
+<script>
+    $(function() {
+
+        function arr_diff (a1, a2) {
+
+            var a = [], diff = [];
+
+            for (var i = 0; i < a1.length; i++) {
+                a[a1[i]] = true;
+            }
+
+            for (var i = 0; i < a2.length; i++) {
+                if (a[a2[i]]) {
+                    delete a[a2[i]];
+                } else {
+                    a[a2[i]] = true;
+                }
+            }
+
+            for (var k in a) {
+                diff.push(k);
+            }
+
+            return diff;
+        };
+
+        var field_list = $('input:not(.django-select2):not([type="submit"]):not([type="hidden"]):not([type="checkbox"]),textarea');
+        $.each(field_list, function(i, field) {
+            var field = $(field);
+            var field_value = field.val();
+            var field_parent_div = $(field).parent('div').parent('div');
+            var readonly_div = field_parent_div.find('div.readonly');
+            var readonly_p = field_parent_div.find('p');
+            var service_value;
+            if (readonly_div.length) {
+                service_value = readonly_div.text();
+            }
+            if (readonly_p.length) {
+                service_value = readonly_p.text();                
+            }
+
+
+            
+            
+            if (field_value != service_value && !(field_value == '' && service_value == '-')&& !(field_value == '' && !service_value)&& !(field_value == 'None' && !service_value)) {
+                field.addClass('different_field');
+            }
+        });
+        
+        
+        
+        var check_list = $('input[type="checkbox"]');
+        $.each(check_list, function(i, field) {
+            var field = $(field);
+            var field_value = field.is(":checked").toString().toLowerCase();
+            var field_parent_div = $(field).parent('div').parent('div');
+            var readonly_div = field_parent_div.find('div.readonly');
+            var readonly_p = field_parent_div.find('p');
+            var service_value;
+            if (readonly_div.length) {
+                service_value = readonly_div.text().toLowerCase();
+            }
+            if (readonly_p.length) {
+                service_value = readonly_p.text().toLowerCase();                
+            }
+
+            
+            
+            
+            if (field_value != service_value && !(field_value == '' && service_value == '-') && service_value) {
+                field.addClass('different_field');
+            }
+        });       
+
+
+        
+
+        var select_list = $('select:not(.django-select2)');
+        $.each(select_list, function(i, field) {
+            var field = $(field);
+            var field_value = field.find('option:selected').text();
+            var field_parent_div = $(field).parent('div').parent('div');
+            var readonly_div = field_parent_div.find('div.readonly');
+            var readonly_p = field_parent_div.find('p');
+            var service_value;
+            if (readonly_div.length) {
+                service_value = readonly_div.text();
+            }
+            if (readonly_p.length) {
+                service_value = readonly_p.text();
+            }
+            
+            
+            if (field_value != service_value && !(field_value == '---------' && service_value == '-')) {
+                console.log(field);
+                console.log(field_value);
+                console.log(service_value);
+                field.addClass('different_field');
+            }
+        });
+
+        var select2_list = $('select.django-select2');
+        $.each(select2_list, function(i, field) {
+            var field = $(field);
+            var selected_options = $(field).find('option:selected');
+            var selected_values = [];
+            $.each(selected_options, function(i, selected_option) {
+                selected_values[selected_values.length] = $(selected_option).text();
+            });
+
+            var field_parent_div = $(field).parent('div').parent('div').parent('div');
+            var readonly_div = field_parent_div.find('div.readonly');
+            var readonly_p = field_parent_div.find('p');
+            var service_value;
+            if (readonly_div.length) {
+                service_value = readonly_div.text();
+            }
+            if (readonly_p.length) {
+                service_value = readonly_p.text();
+            }
+            var service_selected_values = service_value.split(', ');
+
+            service_selected_values = service_selected_values.filter(function(a){return a !== ""})
+            selected_values = selected_values.filter(function(a){return a !== ""})
+            service_selected_values = service_selected_values.filter(function(a){return a !== "-"})
+            selected_values = selected_values.filter(function(a){return a !== "-"})
+
+
+            
+            
+            var selected_diff = arr_diff(service_selected_values, selected_values);
+            
+            
+            if (selected_diff.length) {
+                $(field).prev('div').find('ul').addClass('different_field');
+            }
+        });
+
+        function runSelect2InputList() {
+            var select2_input_list = $('input.django-select2');
+            $.each(select2_input_list, function(i, field) {
+                var field = $(field);
+                
+                var field_values_lis = field.parent('div').find('ul').find('li');
+                var selected_values = [];
+                $.each(field_values_lis, function(i, selected_li) {
+                    selected_values[selected_values.length] = $(selected_li).find('div').text();
+                });
+                var field_parent_div = $(field).parent('div').parent('div').parent('div');
+                var readonly_div = field_parent_div.find('div.readonly');
+                var readonly_p = field_parent_div.find('p');
+                var service_value;
+                if (readonly_div.length) {
+                    service_value = readonly_div.text();
+                }
+                if (readonly_p.length) {
+                    service_value = readonly_p.text();
+                }
+
+                var service_selected_values = service_value.split(', ');
+                
+                service_selected_values = service_selected_values.filter(function(a){return a !== ""})
+                selected_values = selected_values.filter(function(a){return a !== ""})
+                service_selected_values = service_selected_values.filter(function(a){return a !== "-"})
+                selected_values = selected_values.filter(function(a){return a !== "-"})
+
+
+                var selected_diff = arr_diff(service_selected_values, selected_values);
+
+                
+                if (selected_diff.length) {
+                    $(field).prev('div').find('ul').addClass('different_field');
+                }
+            });
+        }
+        setTimeout(runSelect2InputList, 1000); //this is actually not good, but there's no way to set "init" function to select2...
+        $('#id_phone').mask("(999)999-9999");
+        $('.phone_number').mask("(999)999-9999");
+    });
+</script>
+{% endblock %}

@@ -27,7 +27,7 @@ MEDIA_URL = '/media/'
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '_zm)uav&#otv-)y%zw)h7g&#!!c!nx6tz19lyyw2&v@mqljtj*'
+SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django_admin_listfilter_dropdown',
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework_swagger',
     'django_filters',
     'widget_tweaks',
     'bootstrap3',
@@ -59,7 +60,7 @@ INSTALLED_APPS = [
     'kronos',
     #app
     'homepage',
-    'provider',
+    'service',
     'apitoken',
     'languages',
 ]
@@ -164,13 +165,30 @@ USE_L10N = True
 
 USE_TZ = True
 
+TIME_INPUT_FORMATS = ('%H:%M',)
+DATE_INPUT_FORMATS = ('%Y-%m-%d',)
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
 
-LOGIN_REDIRECT_URL = '/provider/update'
+LOGIN_REDIRECT_URL = '/service/update'
+
+
+SWAGGER_SETTINGS = {
+    'JSON_EDITOR': True,
+    'SECURITY_DEFINITIONS': {
+        'api_key': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization'
+        }
+    },
+}
+
+
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -181,7 +199,10 @@ REST_FRAMEWORK = {
     )
 }
 
-EMAIL_HOST = os.environ.get('DJANGO_SMTP_HOST')
-EMAIL_PORT = os.environ.get('DJANGO_SMTP_PORT')
-EMAIL_HOST_USER = os.environ.get('DJANGO_SMTP_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('DJANGO_SMTP_PASSWORD')
+
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_PORT = os.environ.get('EMAIL_PORT')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = True
+

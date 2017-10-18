@@ -5,98 +5,170 @@
 {% block content %}
 <h3>API Token Generated.</h3>
 <p>
-    Token: {{ token.key }}
+    Your Current API Token: {{ token.key }}
 </p>
+<br/>
 
+
+<h3>Get Existing Records</h3>
 <div>
-    <h4>Get Provider List</h4>
+    <h4>Get Services List</h4>
     <code>
-        curl -X GET {% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}/api/v1/providers/ -H 'Authorization: Token {{ token.key }}' -H 'Accept:
+        curl -X GET {% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}/api/v1/services/ -H 'Authorization: Token {{ token.key }}' -H 'Accept:
         application/json; indent=4'
     </code>
 </div>
 
 <div>
-    <h4>Get Provider</h4>
+    <h4>Get Service With ID = 1</h4>
     <code>
-        curl -X GET {% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}/api/v1/providers/1/ -H 'Authorization: Token {{ token.key }}' -H 'Accept:
+        curl -X GET {% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}/api/v1/services/1/ -H 'Authorization: Token {{ token.key }}' -H 'Accept:
+        application/json; indent=4'
+    </code>
+</div>
+
+
+<div>
+    <h4>Get Organizations List</h4>
+    <code>
+        curl -X GET {% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}/api/v1/organizations/ -H 'Authorization: Token {{ token.key }}' -H 'Accept:
         application/json; indent=4'
     </code>
 </div>
 
 <div>
-    <h4>Create Provider Update</h4>
+    <h4>Get Organization With ID = 1</h4>
+    <code>
+        curl -X GET {% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}/api/v1/organizations/1/ -H 'Authorization: Token {{ token.key }}' -H 'Accept:
+        application/json; indent=4'
+    </code>
+</div>
+
+<div>
+    <h4>Get Services by Organization ID</h4>
+    <code>
+        curl -X GET {% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}/api/v1/services/?organizationid=1 -H 'Authorization: Token {{ token.key }}' -H 'Accept:
+        application/json; indent=4'
+    </code>
+</div>
+
+<br/>
+<br/>
+
+<div>
+    <h3>Create Service Update (must provide token of record owner)</h3>
     <code>
             <pre>
-curl -X POST {% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}/api/v1/provider_updates/ -H 'Authorization: Token 2f7df3124e1cb0bd401f0f4164af1d6dd336ddde' -H 'Accept: application/json; indent=4' -d '{
-    "provider": 1,
-    "organization_name": "Organization Name",
-    "phone": "(111)111-1111",
-	"primary_address": "Primary Address",
-	"description": "Description",
-	"price": "10.00",
-	"website_url": "http://site.com/",
-	"counties": [1, 2, 3],
-	"location_updates": [
+curl -X POST {% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}/api/v1/service_updates/ -H 'Authorization: Token {{ token.key }}' -H 'Accept: application/json; indent=4' -d ' 
+ {
+    "service": 1,
+    "name": "Test Service",
+    "alternate_name": "",
+    "description": "",
+    "url": "",
+    "email": "",
+    "status": "",
+    "interpretation_services": [
+        1
+    ],
+    "application_process": "",
+    "wait_time": "",
+    "fees": "",
+    "accredidations": "",
+    "licenses": "",
+    "taxonomy_ids": [],
+    "validation_note": "TESTING 123",
+    "eligibilities_updates": [
         {
-            "location": 1,
-            "name": "Name",
-            "alternate_name": "Altername Name",
-            "description": "Description",
-            "transportation": "Transposration",
-            "latitude": "Lat",
-            "longtitude": "Lng",
-            "physical_address_update": {
-                "physical_address": 1,
-                "attention": "Attention",
-                "address_1": "Address 1",
-                "address_2": "Address 2",
-                "address_3": "Address 3",
-                "address_4": "Address 4",
-                "city": "City",
-                "region": "Region",
-                "state_province": "MS",
-                "postal_code": "Postal Code"
-            },
+            "eligibility_record": 1,
+            "eligibility_details": "wqe"
+        }
+    ],
+    "payments_updates": [
+        {
+            "payment_record": 1,
+            "payment": "qwe"
+        }
+    ],
+    "documents_updates": [
+        {
+            "required_document_record": 1,
+            "document": "qwe"
+        }
+    ],
+    "serviceareas_updates": [
+        {
+            "area_record": 1,
+            "area": [
+                1
+            ],
+            "description": "qwe"
+        }
+    ],
+    "regular_schedule_updates": [
+        {
+            "regular_schedule_record": 1,
+            "weekday": 2,
+            "from_hour": "21:40:00",
+            "to_hour": "21:30:00",
+            "closed": false
+        }
+    ],
+    "holiday_schedule_updates": [
+        {
+            "holiday_schedule_record": 1,
+            "day": "2017-09-20",
+            "from_hour": null,
+            "to_hour": null,
+            "closed": true
+        }
+    ],
+    "locations_updates": [
+        {
+            "location_record": 1,
+            "name": "qwe",
+            "alternate_name": "qqweqw",
+            "description": "qweqw",
+            "transportation": "",
+            "latitude": "",
+            "longitude": "",
             "contact_updates": [
                 {
-                    "contact": 2,
-                    "name": "Name",
-                    "title": "Title",
-                    "department": "Department",
-                    "email": "mail@mail.com",
-                    "phone_updates": []
-                },
-                {
-                    "contact": 1,
-                    "name": "Name",
-                    "title": "Title",
-                    "department": "Department",
-                    "email": "mail@mail.com",
+                    "contact_record": 1,
+                    "name": "qwe",
+                    "title": "",
+                    "department": "",
+                    "email": "",
                     "phone_updates": [
                         {
-                            "phone": 2,
-                            "number": "(555)555-5555",
-                            "extension": "2",
-                            "type": "fixed",
-                            "department": "Department",
-                            "languages": [1,2,3],
-                            "description": "Description"
-                        },
-                        {
-                            "phone": 1,
-                            "number": "(666)666-6666",
-                            "extension": "123",
-                            "type": "fixed",
-                            "department": "Department",
-                            "languages": [10,20],
-                            "description": "40"
+                            "phone_record": 1,
+                            "number": "(222)222-2222",
+                            "extension": "",
+                            "type": "",
+                            "department": "",
+                            "languages": [],
+                            "description": ""
                         }
                     ]
                 }
+            ],
+            "physical_address_updates": [
+                {
+                    "physical_address_record": 1,
+                    "attention": "qwe",
+                    "address_1": "",
+                    "address_2": "",
+                    "address_3": "",
+                    "address_4": "",
+                    "city": "1111",
+                    "region": "",
+                    "state_province": null,
+                    "postal_code": "",
+                    "country": ""
+                }
             ]
         }
-	]
+    ]
 }' -H 'Content-Type: application/json'
             </pre>
     </code>

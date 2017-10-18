@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+  <form method="get">
+    <div class="well">
+      <h4 style="margin-top: 0">Filter</h4>
+      <div class="row">
+        <div class="form-group col-md-3 col-sm-3">
+          {{ filter.form.name.label_tag }}
+          {% render_field filter.form.name class="form-control" %}
+        </div>
+        <div class="form-group col-md-3 col-sm-3">
+          {{ filter.form.description.label_tag }}
+          {% render_field filter.form.description class="form-control" %}
+        </div>
+        <div class="form-group col-md-3 col-sm-3">
+          {{ filter.form.price.label_tag }}
+          {% render_field filter.form.price class="form-control" %}
+        </div>
+        <div class="form-group col-md-3 col-sm-3">
+          {{ filter.form.owner.label_tag }}
+          {% render_field filter.form.owner class="form-control" %}
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        <span class="glyphicon glyphicon-search"></span> Search
+      </button>
+    </div>
+  </form>
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Owner</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for service in filter.qs %}
+        <tr>
+          <td>{{ service.name }}</td>
+          <td>{{ service.description }}</td>
+          <td>{{ service.price }}</td>
+          <td>{{ service.owner }}</td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="4">No data</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
